@@ -29,5 +29,21 @@ namespace M8_PortfolioProject_MMeyer
         //Class level Variable 
         //?
 
+
+
+
+
+
+        private void BookForm_Load(object sender, EventArgs e)
+        {
+            bindingTypeComboBox.Items.Add("Paperback");
+            bindingTypeComboBox.Items.Add("Hardcover");
+            bindingTypeComboBox.Items.Add("Spiral Bound");
+            bindingTypeComboBox.SelectedIndex = 0;
+        }
+        
+
+
+
     }
 }
