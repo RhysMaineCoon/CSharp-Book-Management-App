@@ -46,6 +46,7 @@
             this.bookListBox = new System.Windows.Forms.ListBox();
             this.booksLabel = new System.Windows.Forms.Label();
             this.displayInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.descriptionOutputLabel = new System.Windows.Forms.Label();
             this.publishYearOutputLabel = new System.Windows.Forms.Label();
             this.bindingTypeOutputLabel = new System.Windows.Forms.Label();
             this.authorOutputLabel = new System.Windows.Forms.Label();
@@ -60,7 +61,6 @@
             this.editButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.deleteCheckBox = new System.Windows.Forms.CheckBox();
-            this.descriptionOutputLabel = new System.Windows.Forms.Label();
             this.enterInfoGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.coverPictureBox)).BeginInit();
             this.displayInfoGroupBox.SuspendLayout();
@@ -208,6 +208,7 @@
             this.bookListBox.Name = "bookListBox";
             this.bookListBox.Size = new System.Drawing.Size(213, 484);
             this.bookListBox.TabIndex = 1;
+            this.bookListBox.SelectedIndexChanged += new System.EventHandler(this.bookListBox_SelectedIndexChanged);
             // 
             // booksLabel
             // 
@@ -238,6 +239,14 @@
             this.displayInfoGroupBox.TabIndex = 3;
             this.displayInfoGroupBox.TabStop = false;
             this.displayInfoGroupBox.Text = "Display Book Info:";
+            // 
+            // descriptionOutputLabel
+            // 
+            this.descriptionOutputLabel.Location = new System.Drawing.Point(275, 162);
+            this.descriptionOutputLabel.Name = "descriptionOutputLabel";
+            this.descriptionOutputLabel.Size = new System.Drawing.Size(252, 364);
+            this.descriptionOutputLabel.TabIndex = 28;
+            this.descriptionOutputLabel.Text = "*";
             // 
             // publishYearOutputLabel
             // 
@@ -367,14 +376,6 @@
             this.deleteCheckBox.Text = "Delete Book";
             this.deleteCheckBox.UseVisualStyleBackColor = true;
             this.deleteCheckBox.CheckedChanged += new System.EventHandler(this.deleteCheckBox_CheckedChanged);
-            // 
-            // descriptionOutputLabel
-            // 
-            this.descriptionOutputLabel.Location = new System.Drawing.Point(275, 162);
-            this.descriptionOutputLabel.Name = "descriptionOutputLabel";
-            this.descriptionOutputLabel.Size = new System.Drawing.Size(252, 364);
-            this.descriptionOutputLabel.TabIndex = 28;
-            this.descriptionOutputLabel.Text = "*";
             // 
             // BookForm
             // 

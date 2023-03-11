@@ -15,14 +15,20 @@ namespace M8_PortfolioProject_MMeyer
     {
         //Book information
         //Declare variables 
+        private int mID;
         private string mTitle;
         private string mDescription;
         private string mAuthor;
         private int mPublishYear;
         private string mBindingType;
 
-
         //Set up getter and setter methods 
+        public int BookID
+        {
+            get { return mID; }
+            set { mID = value; }
+        }
+
         public string Title
         {
             get { return mTitle; }
