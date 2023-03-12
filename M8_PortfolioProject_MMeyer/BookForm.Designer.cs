@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookForm));
             this.enterInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.bookIDTextBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.clearButton = new System.Windows.Forms.Button();
             this.descriptionLabel = new System.Windows.Forms.Label();
             this.descriptionRichTextBox = new System.Windows.Forms.RichTextBox();
             this.addButton = new System.Windows.Forms.Button();
@@ -52,7 +55,6 @@
             this.authorOutputLabel = new System.Windows.Forms.Label();
             this.titleOutputLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.publishYearLabel1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -61,6 +63,9 @@
             this.editButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.deleteCheckBox = new System.Windows.Forms.CheckBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
             this.enterInfoGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.coverPictureBox)).BeginInit();
             this.displayInfoGroupBox.SuspendLayout();
@@ -69,6 +74,10 @@
             // 
             // enterInfoGroupBox
             // 
+            this.enterInfoGroupBox.BackColor = System.Drawing.Color.Transparent;
+            this.enterInfoGroupBox.Controls.Add(this.bookIDTextBox);
+            this.enterInfoGroupBox.Controls.Add(this.label3);
+            this.enterInfoGroupBox.Controls.Add(this.clearButton);
             this.enterInfoGroupBox.Controls.Add(this.descriptionLabel);
             this.enterInfoGroupBox.Controls.Add(this.descriptionRichTextBox);
             this.enterInfoGroupBox.Controls.Add(this.addButton);
@@ -84,15 +93,43 @@
             this.enterInfoGroupBox.Controls.Add(this.titleLabel);
             this.enterInfoGroupBox.Location = new System.Drawing.Point(12, 12);
             this.enterInfoGroupBox.Name = "enterInfoGroupBox";
-            this.enterInfoGroupBox.Size = new System.Drawing.Size(477, 557);
+            this.enterInfoGroupBox.Size = new System.Drawing.Size(291, 768);
             this.enterInfoGroupBox.TabIndex = 0;
             this.enterInfoGroupBox.TabStop = false;
             this.enterInfoGroupBox.Text = "Enter Book Info";
             // 
+            // bookIDTextBox
+            // 
+            this.bookIDTextBox.Enabled = false;
+            this.bookIDTextBox.Location = new System.Drawing.Point(106, 27);
+            this.bookIDTextBox.Name = "bookIDTextBox";
+            this.bookIDTextBox.Size = new System.Drawing.Size(167, 23);
+            this.bookIDTextBox.TabIndex = 14;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(43, 30);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(48, 15);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "BookID:";
+            // 
+            // clearButton
+            // 
+            this.clearButton.BackColor = System.Drawing.Color.Silver;
+            this.clearButton.Location = new System.Drawing.Point(141, 728);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(93, 29);
+            this.clearButton.TabIndex = 12;
+            this.clearButton.Text = "Clear";
+            this.clearButton.UseVisualStyleBackColor = false;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
             // descriptionLabel
             // 
             this.descriptionLabel.AutoSize = true;
-            this.descriptionLabel.Location = new System.Drawing.Point(242, 113);
+            this.descriptionLabel.Location = new System.Drawing.Point(17, 216);
             this.descriptionLabel.Name = "descriptionLabel";
             this.descriptionLabel.Size = new System.Drawing.Size(100, 15);
             this.descriptionLabel.TabIndex = 11;
@@ -100,26 +137,27 @@
             // 
             // descriptionRichTextBox
             // 
-            this.descriptionRichTextBox.Location = new System.Drawing.Point(244, 128);
+            this.descriptionRichTextBox.Location = new System.Drawing.Point(17, 244);
             this.descriptionRichTextBox.Name = "descriptionRichTextBox";
-            this.descriptionRichTextBox.Size = new System.Drawing.Size(227, 365);
+            this.descriptionRichTextBox.Size = new System.Drawing.Size(217, 163);
             this.descriptionRichTextBox.TabIndex = 10;
             this.descriptionRichTextBox.Text = "";
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(325, 511);
+            this.addButton.BackColor = System.Drawing.Color.Silver;
+            this.addButton.Location = new System.Drawing.Point(8, 728);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(75, 23);
+            this.addButton.Size = new System.Drawing.Size(83, 29);
             this.addButton.TabIndex = 4;
             this.addButton.Text = "Add Book";
-            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.UseVisualStyleBackColor = false;
             this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
             // addCoverLabel
             // 
             this.addCoverLabel.AutoSize = true;
-            this.addCoverLabel.Location = new System.Drawing.Point(20, 110);
+            this.addCoverLabel.Location = new System.Drawing.Point(17, 409);
             this.addCoverLabel.Name = "addCoverLabel";
             this.addCoverLabel.Size = new System.Drawing.Size(123, 15);
             this.addCoverLabel.TabIndex = 9;
@@ -127,47 +165,47 @@
             // 
             // publishYearTextBox
             // 
-            this.publishYearTextBox.Location = new System.Drawing.Point(325, 57);
+            this.publishYearTextBox.Location = new System.Drawing.Point(106, 173);
             this.publishYearTextBox.Name = "publishYearTextBox";
-            this.publishYearTextBox.Size = new System.Drawing.Size(121, 23);
+            this.publishYearTextBox.Size = new System.Drawing.Size(167, 23);
             this.publishYearTextBox.TabIndex = 8;
             // 
             // bindingTypeComboBox
             // 
             this.bindingTypeComboBox.FormattingEnabled = true;
-            this.bindingTypeComboBox.Location = new System.Drawing.Point(325, 22);
+            this.bindingTypeComboBox.Location = new System.Drawing.Point(106, 135);
             this.bindingTypeComboBox.Name = "bindingTypeComboBox";
-            this.bindingTypeComboBox.Size = new System.Drawing.Size(121, 23);
+            this.bindingTypeComboBox.Size = new System.Drawing.Size(167, 23);
             this.bindingTypeComboBox.TabIndex = 7;
             // 
             // authorTextBox
             // 
-            this.authorTextBox.Location = new System.Drawing.Point(93, 59);
+            this.authorTextBox.Location = new System.Drawing.Point(106, 96);
             this.authorTextBox.Name = "authorTextBox";
-            this.authorTextBox.Size = new System.Drawing.Size(100, 23);
+            this.authorTextBox.Size = new System.Drawing.Size(167, 23);
             this.authorTextBox.TabIndex = 6;
             // 
             // titleTextBox
             // 
-            this.titleTextBox.Location = new System.Drawing.Point(93, 25);
+            this.titleTextBox.Location = new System.Drawing.Point(106, 62);
             this.titleTextBox.Name = "titleTextBox";
-            this.titleTextBox.Size = new System.Drawing.Size(100, 23);
+            this.titleTextBox.Size = new System.Drawing.Size(167, 23);
             this.titleTextBox.TabIndex = 5;
             // 
             // coverPictureBox
             // 
-            this.coverPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("coverPictureBox.BackgroundImage")));
             this.coverPictureBox.ErrorImage = null;
-            this.coverPictureBox.Location = new System.Drawing.Point(20, 128);
+            this.coverPictureBox.Location = new System.Drawing.Point(17, 427);
             this.coverPictureBox.Name = "coverPictureBox";
-            this.coverPictureBox.Size = new System.Drawing.Size(202, 402);
+            this.coverPictureBox.Size = new System.Drawing.Size(199, 295);
             this.coverPictureBox.TabIndex = 4;
             this.coverPictureBox.TabStop = false;
+            this.coverPictureBox.Click += new System.EventHandler(this.coverPictureBox_Click);
             // 
             // publishYearLabel
             // 
             this.publishYearLabel.AutoSize = true;
-            this.publishYearLabel.Location = new System.Drawing.Point(206, 57);
+            this.publishYearLabel.Location = new System.Drawing.Point(2, 175);
             this.publishYearLabel.Name = "publishYearLabel";
             this.publishYearLabel.Size = new System.Drawing.Size(98, 15);
             this.publishYearLabel.TabIndex = 3;
@@ -176,7 +214,7 @@
             // bindingTypeLabel
             // 
             this.bindingTypeLabel.AutoSize = true;
-            this.bindingTypeLabel.Location = new System.Drawing.Point(226, 25);
+            this.bindingTypeLabel.Location = new System.Drawing.Point(17, 138);
             this.bindingTypeLabel.Name = "bindingTypeLabel";
             this.bindingTypeLabel.Size = new System.Drawing.Size(78, 15);
             this.bindingTypeLabel.TabIndex = 2;
@@ -185,7 +223,7 @@
             // authorLabel
             // 
             this.authorLabel.AutoSize = true;
-            this.authorLabel.Location = new System.Drawing.Point(18, 67);
+            this.authorLabel.Location = new System.Drawing.Point(44, 104);
             this.authorLabel.Name = "authorLabel";
             this.authorLabel.Size = new System.Drawing.Size(47, 15);
             this.authorLabel.TabIndex = 1;
@@ -194,7 +232,7 @@
             // titleLabel
             // 
             this.titleLabel.AutoSize = true;
-            this.titleLabel.Location = new System.Drawing.Point(18, 28);
+            this.titleLabel.Location = new System.Drawing.Point(31, 65);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(60, 15);
             this.titleLabel.TabIndex = 0;
@@ -204,16 +242,16 @@
             // 
             this.bookListBox.FormattingEnabled = true;
             this.bookListBox.ItemHeight = 15;
-            this.bookListBox.Location = new System.Drawing.Point(506, 35);
+            this.bookListBox.Location = new System.Drawing.Point(647, 30);
             this.bookListBox.Name = "bookListBox";
-            this.bookListBox.Size = new System.Drawing.Size(213, 484);
+            this.bookListBox.Size = new System.Drawing.Size(221, 679);
             this.bookListBox.TabIndex = 1;
             this.bookListBox.SelectedIndexChanged += new System.EventHandler(this.bookListBox_SelectedIndexChanged);
             // 
             // booksLabel
             // 
             this.booksLabel.AutoSize = true;
-            this.booksLabel.Location = new System.Drawing.Point(516, 17);
+            this.booksLabel.Location = new System.Drawing.Point(647, 12);
             this.booksLabel.Name = "booksLabel";
             this.booksLabel.Size = new System.Drawing.Size(80, 15);
             this.booksLabel.TabIndex = 2;
@@ -221,37 +259,37 @@
             // 
             // displayInfoGroupBox
             // 
+            this.displayInfoGroupBox.BackColor = System.Drawing.Color.Transparent;
             this.displayInfoGroupBox.Controls.Add(this.descriptionOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.publishYearOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.bindingTypeOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.authorOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.titleOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.label1);
-            this.displayInfoGroupBox.Controls.Add(this.label2);
             this.displayInfoGroupBox.Controls.Add(this.pictureBox1);
             this.displayInfoGroupBox.Controls.Add(this.publishYearLabel1);
             this.displayInfoGroupBox.Controls.Add(this.label4);
             this.displayInfoGroupBox.Controls.Add(this.label5);
             this.displayInfoGroupBox.Controls.Add(this.label6);
-            this.displayInfoGroupBox.Location = new System.Drawing.Point(746, 20);
+            this.displayInfoGroupBox.Location = new System.Drawing.Point(332, 12);
             this.displayInfoGroupBox.Name = "displayInfoGroupBox";
-            this.displayInfoGroupBox.Size = new System.Drawing.Size(533, 549);
+            this.displayInfoGroupBox.Size = new System.Drawing.Size(265, 768);
             this.displayInfoGroupBox.TabIndex = 3;
             this.displayInfoGroupBox.TabStop = false;
             this.displayInfoGroupBox.Text = "Display Book Info:";
             // 
             // descriptionOutputLabel
             // 
-            this.descriptionOutputLabel.Location = new System.Drawing.Point(275, 162);
+            this.descriptionOutputLabel.Location = new System.Drawing.Point(22, 543);
             this.descriptionOutputLabel.Name = "descriptionOutputLabel";
-            this.descriptionOutputLabel.Size = new System.Drawing.Size(252, 364);
+            this.descriptionOutputLabel.Size = new System.Drawing.Size(221, 168);
             this.descriptionOutputLabel.TabIndex = 28;
             this.descriptionOutputLabel.Text = "*";
             // 
             // publishYearOutputLabel
             // 
             this.publishYearOutputLabel.AutoSize = true;
-            this.publishYearOutputLabel.Location = new System.Drawing.Point(360, 75);
+            this.publishYearOutputLabel.Location = new System.Drawing.Point(133, 480);
             this.publishYearOutputLabel.Name = "publishYearOutputLabel";
             this.publishYearOutputLabel.Size = new System.Drawing.Size(12, 15);
             this.publishYearOutputLabel.TabIndex = 27;
@@ -260,7 +298,7 @@
             // bindingTypeOutputLabel
             // 
             this.bindingTypeOutputLabel.AutoSize = true;
-            this.bindingTypeOutputLabel.Location = new System.Drawing.Point(355, 45);
+            this.bindingTypeOutputLabel.Location = new System.Drawing.Point(133, 449);
             this.bindingTypeOutputLabel.Name = "bindingTypeOutputLabel";
             this.bindingTypeOutputLabel.Size = new System.Drawing.Size(12, 15);
             this.bindingTypeOutputLabel.TabIndex = 26;
@@ -269,7 +307,7 @@
             // authorOutputLabel
             // 
             this.authorOutputLabel.AutoSize = true;
-            this.authorOutputLabel.Location = new System.Drawing.Point(99, 79);
+            this.authorOutputLabel.Location = new System.Drawing.Point(130, 410);
             this.authorOutputLabel.Name = "authorOutputLabel";
             this.authorOutputLabel.Size = new System.Drawing.Size(12, 15);
             this.authorOutputLabel.TabIndex = 25;
@@ -278,7 +316,7 @@
             // titleOutputLabel
             // 
             this.titleOutputLabel.AutoSize = true;
-            this.titleOutputLabel.Location = new System.Drawing.Point(102, 44);
+            this.titleOutputLabel.Location = new System.Drawing.Point(133, 375);
             this.titleOutputLabel.Name = "titleOutputLabel";
             this.titleOutputLabel.Size = new System.Drawing.Size(12, 15);
             this.titleOutputLabel.TabIndex = 24;
@@ -287,35 +325,25 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(268, 128);
+            this.label1.Location = new System.Drawing.Point(22, 510);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 15);
             this.label1.TabIndex = 23;
             this.label1.Text = "Description:";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 128);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(123, 15);
-            this.label2.TabIndex = 21;
-            this.label2.Text = "Add Cover (Optional):";
-            // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(21, 146);
+            this.pictureBox1.Location = new System.Drawing.Point(19, 22);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(221, 376);
+            this.pictureBox1.Size = new System.Drawing.Size(221, 332);
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
             // 
             // publishYearLabel1
             // 
             this.publishYearLabel1.AutoSize = true;
-            this.publishYearLabel1.Location = new System.Drawing.Point(237, 75);
+            this.publishYearLabel1.Location = new System.Drawing.Point(22, 480);
             this.publishYearLabel1.Name = "publishYearLabel1";
             this.publishYearLabel1.Size = new System.Drawing.Size(95, 15);
             this.publishYearLabel1.TabIndex = 15;
@@ -324,7 +352,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(254, 44);
+            this.label4.Location = new System.Drawing.Point(39, 449);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(78, 15);
             this.label4.TabIndex = 14;
@@ -333,7 +361,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(39, 80);
+            this.label5.Location = new System.Drawing.Point(70, 411);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(47, 15);
             this.label5.TabIndex = 13;
@@ -342,7 +370,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 44);
+            this.label6.Location = new System.Drawing.Point(55, 375);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(62, 15);
             this.label6.TabIndex = 12;
@@ -350,38 +378,57 @@
             // 
             // editButton
             // 
-            this.editButton.Location = new System.Drawing.Point(506, 546);
+            this.editButton.BackColor = System.Drawing.Color.Silver;
+            this.editButton.Location = new System.Drawing.Point(650, 751);
             this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(75, 23);
+            this.editButton.Size = new System.Drawing.Size(86, 29);
             this.editButton.TabIndex = 5;
             this.editButton.Text = "Edit Book";
-            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.UseVisualStyleBackColor = false;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(590, 546);
+            this.deleteButton.BackColor = System.Drawing.Color.Silver;
+            this.deleteButton.Location = new System.Drawing.Point(766, 751);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(79, 23);
+            this.deleteButton.Size = new System.Drawing.Size(90, 29);
             this.deleteButton.TabIndex = 6;
             this.deleteButton.Text = "Delete Book";
-            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.UseVisualStyleBackColor = false;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // deleteCheckBox
             // 
             this.deleteCheckBox.AutoSize = true;
-            this.deleteCheckBox.Location = new System.Drawing.Point(509, 523);
+            this.deleteCheckBox.BackColor = System.Drawing.Color.Silver;
+            this.deleteCheckBox.Location = new System.Drawing.Point(647, 715);
             this.deleteCheckBox.Name = "deleteCheckBox";
             this.deleteCheckBox.Size = new System.Drawing.Size(89, 19);
             this.deleteCheckBox.TabIndex = 7;
             this.deleteCheckBox.Text = "Delete Book";
-            this.deleteCheckBox.UseVisualStyleBackColor = true;
+            this.deleteCheckBox.UseVisualStyleBackColor = false;
             this.deleteCheckBox.CheckedChanged += new System.EventHandler(this.deleteCheckBox_CheckedChanged);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.FileName = "openFileDialog2";
+            // 
+            // openFileDialog3
+            // 
+            this.openFileDialog3.FileName = "openFileDialog1";
             // 
             // BookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1291, 581);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(909, 792);
             this.Controls.Add(this.deleteCheckBox);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.editButton);
@@ -390,7 +437,7 @@
             this.Controls.Add(this.bookListBox);
             this.Controls.Add(this.enterInfoGroupBox);
             this.Name = "BookForm";
-            this.Text = "BookForm";
+            this.Text = "Book Managment App";
             this.Load += new System.EventHandler(this.BookForm_Load);
             this.enterInfoGroupBox.ResumeLayout(false);
             this.enterInfoGroupBox.PerformLayout();
@@ -426,7 +473,6 @@
         private Button deleteButton;
         private CheckBox deleteCheckBox;
         private Label label1;
-        private Label label2;
         private PictureBox pictureBox1;
         private Label publishYearLabel1;
         private Label label4;
@@ -437,5 +483,11 @@
         private Label bindingTypeOutputLabel;
         private Label authorOutputLabel;
         private Label descriptionOutputLabel;
+        private Button clearButton;
+        private OpenFileDialog openFileDialog1;
+        private OpenFileDialog openFileDialog2;
+        private Label label3;
+        private OpenFileDialog openFileDialog3;
+        internal TextBox bookIDTextBox;
     }
 }

@@ -35,13 +35,15 @@ namespace M8_PortfolioProject_MMeyer
         // Class Level variable
         int bookLastNumber = 0;
 
+        public void Msg(string msg)
+        {
+            MessageBox.Show(msg, "Book Management Application", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        } 
 
         private void addButton_Click(object sender, EventArgs e)
         {
             //Declare Variables
-            int intCheck;
-
-            //Declare Object
+            int valueINT;
 
             //Validate Inputs 
             if (titleTextBox.Text == "")
@@ -62,7 +64,7 @@ namespace M8_PortfolioProject_MMeyer
                 this.bindingTypeComboBox.Focus();
                 return;
             }
-            else if (int.TryParse(publishYearTextBox.Text, out intCheck) == false)
+            else if (int.TryParse(publishYearTextBox.Text, out valueINT) == false)
             {
                 MessageBox.Show("Publication Year cannot be blank.");
                 this.publishYearTextBox.Focus();
@@ -76,83 +78,27 @@ namespace M8_PortfolioProject_MMeyer
             }
             else
             {
+
                 //Assigning book information from the form to a bookObject
                 bookObject.Title = titleTextBox.Text;
                 bookObject.Author = authorTextBox.Text;
                 bookObject.BindingType = bindingTypeComboBox.SelectedItem.ToString();
-                bookObject.PublishYear = int.Parse(publishYearTextBox.Text);
+                bookObject.PublishYear = valueINT;
                 bookObject.Description = descriptionRichTextBox.Text;
 
-
                 //Set the selectedBookObject to the bookObject
-                selectedBookObject= bookObject;
+                //selectedBookObject= bookObject;
                 bookList.Add(bookObject);
-                bookListBox.SelectedItem = bookObject;
+                //bookListBox.SelectedItem = bookObject;
 
-                //Add new book object to list
-                //bookList.Add(bookObject);
-                //bookList.SelectedIndex = bookListBox.Items.Count - 1;
-                //bookList.SelectedItem = bookObject;
+                //Insert Book into Database
+                InsertBook();
 
+                // Display book info to form
+                DisplayBook(); 
 
-                if (addButton.Text == "Add Book")
-                {
-                    bookList.Add(bookObject);
-                    InsertBook();
-                }
-                else if (addButton.Text == "Edit Book")
-                {
-                    UpdateBook();
-                    bookList.Clear();
-                    Reload_Books();
-                }
-                else if (addButton.Text == "Delete Book")
-                {
-                    DeleteBook();
-                    bookList.Clear();
-                    Reload_Books();
-                }
-            }
-        }
-        private void DeleteBook()
-        {
-            //Open Database
-            var dbConnection = OpenDBConnection();
-
-            // Create SQL String
-            string SQL = "Delete from BookInfoTable where Title = '" + bookObject.Title + "'";
-            MessageBox.Show(SQL);
-
-            //Create Command
-            var deleteCommand = new SqlCommand(SQL, dbConnection);
-            var intRowsAffected = deleteCommand.ExecuteNonQuery();
-            if (intRowsAffected == 1)
-            {
-                Msg("Record was deleted");
-            }
-        }
-
-        private void DisplayBook()
-        {
-            //Display the Full Name of the object selected in the Listbox
-            M8_PortfolioProject_MMeyer.Book selectedBookObject = (M8_PortfolioProject_MMeyer.Book)bookListBox.SelectedItem;
-
-            //Refresh Output Labels
-            if (bookListBox.SelectedIndex >= 0)
-            {
-                //Display selected book information
-                titleOutputLabel.Text = selectedBookObject.Title;
-                authorOutputLabel.Text = selectedBookObject.Author;
-                descriptionOutputLabel.Text = selectedBookObject.Description;
-                publishYearOutputLabel.Text = selectedBookObject.PublishYear.ToString();
-                bindingTypeOutputLabel.Text = selectedBookObject.BindingType;
-
-
-                //If record selected show delete checkbox
-                deleteCheckBox.Visible = true;
-
-                //Change add book button to Edit Book
-                addButton.Text = "Edit Book";
+                //Allows user to uncheck delete checkbox when clicked 
+                deleteCheckBox.CheckState = CheckState.Unchecked;
             }
         }
         private void BookForm_Load(object sender, EventArgs e)
@@ -167,6 +113,9 @@ namespace M8_PortfolioProject_MMeyer
             bookListBox.DataSource = bookList;
             bookListBox.DisplayMember = "Title";
 
+            //Hide Delete button 
+            deleteButton.Visible = false;
+
             // Load books from Database
             Reload_Books();
 
@@ -175,10 +124,7 @@ namespace M8_PortfolioProject_MMeyer
                 bookListBox.SelectedIndex = bookListBox.Items.Count - 1;
                 DisplayBook();
             }
-
         }
-
-        // Database Methods 
         private SqlConnection OpenDBConnection()
         {
             //This gives the full path into the bin/debug folder.
@@ -198,37 +144,6 @@ namespace M8_PortfolioProject_MMeyer
 
             return dbConnection;
         }
-
-        private void InsertBook()
-        {
-            // Open Database
-            var connection = OpenDBConnection();
-
-            // Create SQL String
-            string SQL = "Insert into BookInfoTable (Title, Author, Binding, Year, Description) values (@Title, @Author, @Binding, @Year, @Description)";
-            Msg(SQL.ToString());
-            // Create Command
-            var insertCommand = new SqlCommand(SQL, connection);
-
-            // Populate Parameters of the Insert
-            insertCommand.Parameters.AddWithValue("Title", bookList.Last().Title);
-            insertCommand.Parameters.AddWithValue("Author", bookList.Last().Author);
-            insertCommand.Parameters.AddWithValue("Binding", bookList.Last().BindingType);
-            insertCommand.Parameters.AddWithValue("Year", bookList.Last().PublishYear);
-            insertCommand.Parameters.AddWithValue("Description", bookList.Last().Description);
-
-            int intRowsAffected = insertCommand.ExecuteNonQuery();
-
-            if (intRowsAffected == 1)
-            {
-                Msg(bookList.Last().Title + " was inserted");
-            }
-            else
-            {
-                Msg("The insert failed.");
-            }
-        }
-
         private void Reload_Books()
         {
             // Clear Listbox
@@ -264,6 +179,40 @@ namespace M8_PortfolioProject_MMeyer
             connection.Close();
             connection.Dispose();
         }
+        
+        private void bookListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DisplayBook(); 
+        }
+        private void InsertBook()
+        {
+            // Open Database
+            var connection = OpenDBConnection();
+
+            // Create SQL String
+            string SQL = "Insert into BookInfoTable (Title, Author, Binding, Year, Description) values (@Title, @Author, @Binding, @Year, @Description)";
+            Msg(SQL.ToString());
+            // Create Command
+            var insertCommand = new SqlCommand(SQL, connection);
+
+            // Populate Parameters of the Insert
+            insertCommand.Parameters.AddWithValue("Title", bookList.Last().Title);
+            insertCommand.Parameters.AddWithValue("Author", bookList.Last().Author);
+            insertCommand.Parameters.AddWithValue("Binding", bookList.Last().BindingType);
+            insertCommand.Parameters.AddWithValue("Year", bookList.Last().PublishYear);
+            insertCommand.Parameters.AddWithValue("Description", bookList.Last().Description);
+
+            int intRowsAffected = insertCommand.ExecuteNonQuery();
+
+            if (intRowsAffected == 1)
+            {
+                Msg(bookList.Last().Title + " was inserted");
+            }
+            else
+            {
+                Msg("The insert failed.");
+            }
+        }
 
         public void UpdateBook()
         {
@@ -272,9 +221,9 @@ namespace M8_PortfolioProject_MMeyer
 
             // Create SQL String
             string SQL = "Update bookInfoTable set Title ='" + titleTextBox.Text + "', Author = '" +
-           authorTextBox.Text + "', Binding_Type='" + bindingTypeComboBox.Text + "',Publish_Year='" + publishYearTextBox.Text + "', Description='" +
+           authorTextBox.Text + "', Binding='" + bindingTypeComboBox.Text + "',Year='" + publishYearTextBox.Text + "', Description='" +
            descriptionRichTextBox.Text +"'";
-            Msg(SQL);
+           Msg(SQL);
 
             // Create Command
             var updateCommand = new SqlCommand(SQL, dbConnection);
@@ -285,20 +234,103 @@ namespace M8_PortfolioProject_MMeyer
             }
         }
 
-
-        private void bookListBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void DeleteBook()
         {
-            DisplayBook(); 
+            //Open Database
+            var dbConnection = OpenDBConnection();
+
+            // Create SQL String
+            string SQL = "Delete from BookInfoTable where Title = '" + bookObject.Title + "'";
+            MessageBox.Show(SQL);
+
+            //Create Command
+            var deleteCommand = new SqlCommand(SQL, dbConnection);
+            var intRowsAffected = deleteCommand.ExecuteNonQuery();
+            if (intRowsAffected == 1)
+            {
+                Msg("Record was deleted");
+            }
         }
-
-        public void Msg(string msg)
+        private void DisplayBook()
         {
-            MessageBox.Show(msg, "Book Management Application", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-        } 
+            //Display the Full Name of the object selected in the Listbox
+            M8_PortfolioProject_MMeyer.Book selectedBookObject = (M8_PortfolioProject_MMeyer.Book)bookListBox.SelectedItem;
+
+            //Refresh Output Labels
+            if (bookListBox.SelectedIndex >= 0)
+            {
+                //Display selected book information
+                titleOutputLabel.Text = selectedBookObject.Title;
+                authorOutputLabel.Text = selectedBookObject.Author;
+                descriptionOutputLabel.Text = selectedBookObject.Description;
+                publishYearOutputLabel.Text = selectedBookObject.PublishYear.ToString();
+                bindingTypeOutputLabel.Text = selectedBookObject.BindingType;
+
+                //Populate Textboxes with the selected book
+                bookIDTextBox.Text = selectedBookObject.BookID.ToString();
+                titleTextBox.Text = selectedBookObject.Title;
+                authorTextBox.Text = selectedBookObject.Author;
+                bindingTypeComboBox.Text = selectedBookObject.BindingType;
+                publishYearTextBox.Text = selectedBookObject.PublishYear.ToString();
+                descriptionRichTextBox.Text = selectedBookObject.Description;
+
+                //If record selected show delete checkbox
+                deleteCheckBox.Visible = true;
+            }
+        }
+        private void ClearLabels()
+        {
+            foreach (Control ctrl in this.Controls)
+            {
+                TextBox tb = ctrl as TextBox;
+                if (tb != null)
+                {
+                    tb.Clear();
+                }
+            }
+
+            //Prepare for new record
+            deleteCheckBox.Checked = false;
+            deleteCheckBox.Visible = false;
+            titleOutputLabel.Text = String.Empty;
+            authorOutputLabel.Text = String.Empty;
+            descriptionOutputLabel.Text = String.Empty;
+            publishYearOutputLabel.Text = String.Empty;
+            bindingTypeOutputLabel.Text = String.Empty;
+            titleTextBox.Focus();
+        }
 
         private void deleteCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            
+            deleteButton.Visible = deleteCheckBox.Checked;   
         }
-    }   
+
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            ClearLabels();
+        }
+
+        //Picture Box
+
+        private void coverPictureBox_Click(object sender, EventArgs e)
+        {
+            // delete later
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            string filePath = openFileDialog1.FileName;
+            coverPictureBox.Image = Image.FromFile(filePath);
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DeleteBook();
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            UpdateBook();
+        }
+    }
 }
