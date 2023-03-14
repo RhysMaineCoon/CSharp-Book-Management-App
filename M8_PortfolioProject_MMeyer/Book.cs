@@ -77,8 +77,7 @@ namespace M8_PortfolioProject_MMeyer
         }
 
         //Methods
-
-    public string OutputInfo()
+        public string OutputInfo()
         {
             return "BookID: " + mBookID + "\nTitle: " + mTitle + "\nAuthor: " + mAuthor + "\nBinding Type : " + mBindingType + "\nPublish Year: " + mPublishYear + "\nDescription: " + mDescription + "";
         }

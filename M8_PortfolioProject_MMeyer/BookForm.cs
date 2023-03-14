@@ -181,11 +181,11 @@ namespace M8_PortfolioProject_MMeyer
             {
                 while (bookReader.Read())
                 {
-                    var storedBookObject = new M8_PortfolioProject_MMeyer.Book(bookReader["Id"].ToString());
+                    var storedBookObject = new Book(bookReader["Id"].ToString());
                     storedBookObject.Title = bookReader["Title"].ToString();
                     storedBookObject.Description = bookReader["Description"].ToString();
                     storedBookObject.Author = bookReader["Author"].ToString();
-                    storedBookObject.PublishYear = (int)bookReader["Year"];
+                    storedBookObject.PublishYear = int.Parse(bookReader["Year"].ToString());
                     storedBookObject.BindingType = bookReader["Binding"].ToString();
 
                     // Update userLastNumber
@@ -261,7 +261,7 @@ namespace M8_PortfolioProject_MMeyer
             var dbConnection = OpenDBConnection();
 
             // Create SQL String
-            string SQL = "Delete from BookInfoTable where Id = '" + bookObject.BookID + "'";
+            string SQL = "Delete from BookInfoTable where Title = '" + bookObject.Title + "'";
             MessageBox.Show(SQL);
 
             //Create Command
@@ -280,7 +280,7 @@ namespace M8_PortfolioProject_MMeyer
             //Refresh Output Labels
             if (bookListBox.SelectedIndex >= 0)
             {
-                //Display selected book information
+                //Display selected book information to output labels
                 titleOutputLabel.Text = selectedBookObject.Title;
                 authorOutputLabel.Text = selectedBookObject.Author;
                 descriptionOutputLabel.Text = selectedBookObject.Description;
@@ -294,6 +294,7 @@ namespace M8_PortfolioProject_MMeyer
                 bindingTypeComboBox.Text = selectedBookObject.BindingType;
                 publishYearTextBox.Text = selectedBookObject.PublishYear.ToString();
                 descriptionRichTextBox.Text = selectedBookObject.Description;
+                outputLabel.Text = selectedBookObject.OutputInfo();
 
                 //If record selected show delete checkbox
                 deleteCheckBox.Visible = true;
@@ -316,11 +317,11 @@ namespace M8_PortfolioProject_MMeyer
             //Prepare for new record
             deleteCheckBox.Checked = false;
             deleteCheckBox.Visible = false;
-            titleOutputLabel.Text = String.Empty;
-            authorOutputLabel.Text = String.Empty;
-            descriptionOutputLabel.Text = String.Empty;
-            publishYearOutputLabel.Text = String.Empty;
-            bindingTypeOutputLabel.Text = String.Empty;
+            titleOutputLabel.Text = string.Empty;
+            authorOutputLabel.Text = string.Empty;
+            descriptionOutputLabel.Text = string.Empty;
+            publishYearOutputLabel.Text = string.Empty;
+            bindingTypeOutputLabel.Text = string.Empty;
             titleTextBox.Focus();
             addButton.Text = "Add Book";
 

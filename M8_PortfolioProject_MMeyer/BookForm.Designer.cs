@@ -64,6 +64,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
+            this.outputLabel = new System.Windows.Forms.Label();
             this.enterInfoGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.coverPictureBox)).BeginInit();
             this.displayInfoGroupBox.SuspendLayout();
@@ -258,6 +259,7 @@
             // displayInfoGroupBox
             // 
             this.displayInfoGroupBox.BackColor = System.Drawing.Color.Transparent;
+            this.displayInfoGroupBox.Controls.Add(this.outputLabel);
             this.displayInfoGroupBox.Controls.Add(this.descriptionOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.publishYearOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.bindingTypeOutputLabel);
@@ -334,7 +336,7 @@
             this.pictureBox1.ErrorImage = null;
             this.pictureBox1.Location = new System.Drawing.Point(19, 22);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(221, 332);
+            this.pictureBox1.Size = new System.Drawing.Size(221, 63);
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
             // 
@@ -399,6 +401,14 @@
             // 
             this.openFileDialog3.FileName = "openFileDialog1";
             // 
+            // outputLabel
+            // 
+            this.outputLabel.Location = new System.Drawing.Point(6, 181);
+            this.outputLabel.Name = "outputLabel";
+            this.outputLabel.Size = new System.Drawing.Size(237, 194);
+            this.outputLabel.TabIndex = 29;
+            this.outputLabel.Text = "**";
+            // 
             // BookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -461,5 +471,6 @@
         private Label label3;
         private OpenFileDialog openFileDialog3;
         internal TextBox bookIDTextBox;
+        private Label outputLabel;
     }
 }
