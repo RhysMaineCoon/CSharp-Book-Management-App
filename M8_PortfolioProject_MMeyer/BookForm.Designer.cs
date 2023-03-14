@@ -60,8 +60,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.editButton = new System.Windows.Forms.Button();
-            this.deleteButton = new System.Windows.Forms.Button();
             this.deleteCheckBox = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
@@ -376,28 +374,6 @@
             this.label6.TabIndex = 12;
             this.label6.Text = "Book Title:";
             // 
-            // editButton
-            // 
-            this.editButton.BackColor = System.Drawing.Color.Silver;
-            this.editButton.Location = new System.Drawing.Point(650, 751);
-            this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(86, 29);
-            this.editButton.TabIndex = 5;
-            this.editButton.Text = "Edit Book";
-            this.editButton.UseVisualStyleBackColor = false;
-            this.editButton.Click += new System.EventHandler(this.editButton_Click);
-            // 
-            // deleteButton
-            // 
-            this.deleteButton.BackColor = System.Drawing.Color.Silver;
-            this.deleteButton.Location = new System.Drawing.Point(766, 751);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(90, 29);
-            this.deleteButton.TabIndex = 6;
-            this.deleteButton.Text = "Delete Book";
-            this.deleteButton.UseVisualStyleBackColor = false;
-            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
-            // 
             // deleteCheckBox
             // 
             this.deleteCheckBox.AutoSize = true;
@@ -430,8 +406,6 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(909, 792);
             this.Controls.Add(this.deleteCheckBox);
-            this.Controls.Add(this.deleteButton);
-            this.Controls.Add(this.editButton);
             this.Controls.Add(this.displayInfoGroupBox);
             this.Controls.Add(this.booksLabel);
             this.Controls.Add(this.bookListBox);
@@ -469,8 +443,6 @@
         private RichTextBox descriptionRichTextBox;
         private Label addCoverLabel;
         private Button addButton;
-        private Button editButton;
-        private Button deleteButton;
         private CheckBox deleteCheckBox;
         private Label label1;
         private PictureBox pictureBox1;

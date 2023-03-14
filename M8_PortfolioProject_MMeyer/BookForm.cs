@@ -79,6 +79,20 @@ namespace M8_PortfolioProject_MMeyer
             else
             {
 
+                //Assign Book Properties
+
+               /* if (bookIDTextBox.Text == String.Empty)
+                {
+                    // If new record increment customerLastNumber
+                    bookLastNumber++;
+                    bookObject.BookID = bookLastNumber.ToString();
+                }
+                else
+                {
+                    bookObject.BookID = bookIDTextBox.Text;
+                }
+               */
+
                 //Assigning book information from the form to a bookObject
                 bookObject.Title = titleTextBox.Text;
                 bookObject.Author = authorTextBox.Text;
@@ -86,16 +100,26 @@ namespace M8_PortfolioProject_MMeyer
                 bookObject.PublishYear = valueINT;
                 bookObject.Description = descriptionRichTextBox.Text;
 
-                //Set the selectedBookObject to the bookObject
-                //selectedBookObject= bookObject;
-                bookList.Add(bookObject);
-                //bookListBox.SelectedItem = bookObject;
+                if (addButton.Text == "Add Book")
+                {
+                    // Add new customer object to list of customers
+                    bookList.Add(bookObject);
+                    InsertBook();
+                }
+                else if (addButton.Text == "Edit Book")
+                {
+                    UpdateBook();
+                    bookList.Clear();
+                    Reload_Books();
+                }
+                else if (addButton.Text == "Delete Book")
+                {
+                    DeleteBook();
+                    bookList.Clear();
+                    Reload_Books();
+                }
 
-                //Insert Book into Database
-                InsertBook();
-
-                // Display book info to form
-                DisplayBook(); 
+                ClearLabels();
 
                 //Allows user to uncheck delete checkbox when clicked 
                 deleteCheckBox.CheckState = CheckState.Unchecked;
@@ -112,9 +136,6 @@ namespace M8_PortfolioProject_MMeyer
             // Connect  Listbox properties to Binding list object 
             bookListBox.DataSource = bookList;
             bookListBox.DisplayMember = "Title";
-
-            //Hide Delete button 
-            deleteButton.Visible = false;
 
             // Load books from Database
             Reload_Books();
@@ -222,7 +243,7 @@ namespace M8_PortfolioProject_MMeyer
             // Create SQL String
             string SQL = "Update bookInfoTable set Title ='" + titleTextBox.Text + "', Author = '" +
            authorTextBox.Text + "', Binding='" + bindingTypeComboBox.Text + "',Year='" + publishYearTextBox.Text + "', Description='" +
-           descriptionRichTextBox.Text +"'";
+           descriptionRichTextBox.Text + "' where Id=  '" + bookIDTextBox.Text + "'";
            Msg(SQL);
 
             // Create Command
@@ -240,7 +261,7 @@ namespace M8_PortfolioProject_MMeyer
             var dbConnection = OpenDBConnection();
 
             // Create SQL String
-            string SQL = "Delete from BookInfoTable where Title = '" + bookObject.Title + "'";
+            string SQL = "Delete from BookInfoTable where Id = '" + bookObject.BookID + "'";
             MessageBox.Show(SQL);
 
             //Create Command
@@ -276,6 +297,9 @@ namespace M8_PortfolioProject_MMeyer
 
                 //If record selected show delete checkbox
                 deleteCheckBox.Visible = true;
+
+                //Change save button to Edit Book
+                addButton.Text = "Edit Book";
             }
         }
         private void ClearLabels()
@@ -298,11 +322,20 @@ namespace M8_PortfolioProject_MMeyer
             publishYearOutputLabel.Text = String.Empty;
             bindingTypeOutputLabel.Text = String.Empty;
             titleTextBox.Focus();
+            addButton.Text = "Add Book";
+
         }
 
         private void deleteCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            deleteButton.Visible = deleteCheckBox.Checked;   
+            if (deleteCheckBox.Checked = true)
+            { 
+                addButton.Text = "Delete Book";
+            }
+            else
+            {
+                addButton.Text = "Edit Book";
+            }
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -321,16 +354,6 @@ namespace M8_PortfolioProject_MMeyer
         {
             string filePath = openFileDialog1.FileName;
             coverPictureBox.Image = Image.FromFile(filePath);
-        }
-
-        private void deleteButton_Click(object sender, EventArgs e)
-        {
-            DeleteBook();
-        }
-
-        private void editButton_Click(object sender, EventArgs e)
-        {
-            UpdateBook();
         }
     }
 }

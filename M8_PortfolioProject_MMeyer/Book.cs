@@ -13,20 +13,19 @@ namespace M8_PortfolioProject_MMeyer
 {
     internal class Book
     {
-        //Book information
         //Declare variables 
-        private int mID;
+        private int mBookID;
         private string mTitle;
         private string mDescription;
         private string mAuthor;
         private int mPublishYear;
         private string mBindingType;
 
-        //Set up getter and setter methods 
+        //Attributes 
         public int BookID
         {
-            get { return mID; }
-            set { mID = value; }
+            get { return mBookID; }
+            set { mBookID = value; }
         }
 
         public string Title
@@ -58,16 +57,18 @@ namespace M8_PortfolioProject_MMeyer
         //Default Constructor 
         public Book()
         {
-            this.Title = String.Empty;
-            this.Description = String.Empty;
-            this.Author = String.Empty;
+            this.mBookID = 0;
+            this.Title = string.Empty;
+            this.Description = string.Empty;
+            this.Author = string.Empty;
             this.PublishYear = 0;
-            this.BindingType = String.Empty;
+            this.BindingType = string.Empty;
         }
 
         //Overloaded Constructor 
         public Book(string title)
         {
+            this.mBookID= 0;
             this.Title = title;
             this.Description = string.Empty;
             this.Author = string.Empty;
@@ -75,7 +76,12 @@ namespace M8_PortfolioProject_MMeyer
             this.BindingType = string.Empty;
         }
 
-        //Method
+        //Methods
+
+    public string OutputInfo()
+        {
+            return "BookID: " + mBookID + "\nTitle: " + mTitle + "\nAuthor: " + mAuthor + "\nBinding Type : " + mBindingType + "\nPublish Year: " + mPublishYear + "\nDescription: " + mDescription + "";
+        }
 
 
     }
