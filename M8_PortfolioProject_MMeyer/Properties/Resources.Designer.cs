@@ -59,5 +59,15 @@ namespace M8_PortfolioProject_MMeyer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cross_g62c159f94_1280 {
+            get {
+                object obj = ResourceManager.GetObject("cross-g62c159f94_1280", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

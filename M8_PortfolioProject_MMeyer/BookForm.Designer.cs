@@ -170,8 +170,10 @@
             // coverPictureBox
             // 
             this.coverPictureBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.coverPictureBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("coverPictureBox.BackgroundImage")));
             this.coverPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.coverPictureBox.ErrorImage = null;
+            this.coverPictureBox.ErrorImage = global::M8_PortfolioProject_MMeyer.Properties.Resources.cross_g62c159f94_1280;
+            this.coverPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("coverPictureBox.Image")));
             this.coverPictureBox.Location = new System.Drawing.Point(17, 427);
             this.coverPictureBox.Name = "coverPictureBox";
             this.coverPictureBox.Size = new System.Drawing.Size(199, 295);

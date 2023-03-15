@@ -13,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Runtime.ConstrainedExecution;
+using System.Xml.Linq;
 
 namespace M8_PortfolioProject_MMeyer
 {
@@ -96,6 +98,8 @@ namespace M8_PortfolioProject_MMeyer
                 bookObject.BindingType = bindingTypeComboBox.SelectedItem.ToString();
                 bookObject.PublishYear = valueINT;
                 bookObject.Description = descriptionRichTextBox.Text;
+                bookObject.Cover = coverPictureBox.Image;
+
 
                 if (addButton.Text == "Add Book")
                 {
@@ -176,21 +180,47 @@ namespace M8_PortfolioProject_MMeyer
             {
                 while (bookReader.Read())
                 {
-                    var storedBookObject = new Book(bookReader["BookID"].ToString());
+                    // exception error being thrown here after adding image. 
+                    var storedBookObject = new M8_PortfolioProject_MMeyer.Book(bookReader["BookID"].ToString());
+                        
+                    storedBookObject.Title = bookReader["Title"].ToString();
+                    storedBookObject.Description = bookReader["Description"].ToString();
+                    storedBookObject.Author = bookReader["Author"].ToString();
+                    storedBookObject.BindingType = bookReader["Binding"].ToString();
                     
-                    try
+                    // System.FormatException: 'Input string was not in a correct format.'
+                    //storedBookObject.PublishYear = int.Parse(bookReader["Year"].ToString());
+
+                    // Handling the exception thrown from the above code
+                    if (int.TryParse(bookReader["Year"].ToString(), out int year))
                     {
-                        storedBookObject.Title = bookReader["Title"].ToString();
-                        storedBookObject.Description = bookReader["Description"].ToString();
-                        storedBookObject.Author = bookReader["Author"].ToString();
-                        storedBookObject.PublishYear = int.Parse(bookReader["Year"].ToString());
-                        storedBookObject.BindingType = bookReader["Binding"].ToString();
+                        storedBookObject.PublishYear = year;
                     }
-                    catch 
+                    else
                     {
-                        MessageBox.Show("Invalid data was entered.");
+                        // Handle the case where the input string cannot be parsed
+                        MessageBox.Show("Input string cannot be parsed.");
                     }
 
+                    // Convert and assign image to book object
+
+                    //System.FormatException: 'The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters.'
+
+                    byte[] imageBytes = Convert.FromBase64String(bookReader["Cover"].ToString());
+                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                    {
+                        try
+                        {
+                            //System.ArgumentException: 'Parameter is not valid.
+                            storedBookObject.Cover = Image.FromStream(ms);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Parameter is not valid");
+                        }
+
+                    }
+             
                     // Update bookLastNumber
                     if (storedBookObject.BookID > bookLastNumber)
                     {
@@ -219,14 +249,19 @@ namespace M8_PortfolioProject_MMeyer
 
             // Create Command
             var insertCommand = new SqlCommand(SQL, connection);
-
+    
             // Populate Parameters of the Insert
             insertCommand.Parameters.AddWithValue("Title", bookList.Last().Title);
             insertCommand.Parameters.AddWithValue("Author", bookList.Last().Author);
             insertCommand.Parameters.AddWithValue("Binding", bookList.Last().BindingType);
             insertCommand.Parameters.AddWithValue("Year", bookList.Last().PublishYear);
             insertCommand.Parameters.AddWithValue("Description", bookList.Last().Description);
-            insertCommand.Parameters.AddWithValue("Cover", bookList.Last().Cover);
+
+            // Insert Image into database
+            byte[] coverBytes = SaveCover(bookList.Last().Cover);
+            insertCommand.Parameters.AddWithValue("Cover", coverBytes);
+            
+
 
             int intRowsAffected = insertCommand.ExecuteNonQuery();
 
@@ -246,10 +281,11 @@ namespace M8_PortfolioProject_MMeyer
             var dbConnection = OpenDBConnection();
 
             // Create SQL String
-            string SQL = "Update bookInfoTable set Title ='" + titleTextBox.Text + "', Author = '" +
-           authorTextBox.Text + "', Binding='" + bindingTypeComboBox.Text + "',Year='" + publishYearTextBox.Text + "', Description='" +
-           descriptionRichTextBox.Text + "' Cover = '" + coverPictureBox + "', where BookID=  '" + bookIDTextBox.Text + "'";
-           Msg(SQL);
+   
+            string SQL = "UPDATE bookInfoTable SET Title='" + titleTextBox.Text + "', Author='" +
+             authorTextBox.Text + "', Binding='" + bindingTypeComboBox.Text + "', Year='" + publishYearTextBox.Text + "', Description='" +
+            descriptionRichTextBox.Text + "', Cover='" + coverPictureBox.Image + "' WHERE BookID='" + bookIDTextBox.Text + "'";
+            Msg(SQL);
 
             // Create Command
             var updateCommand = new SqlCommand(SQL, dbConnection);
@@ -291,7 +327,7 @@ namespace M8_PortfolioProject_MMeyer
                 descriptionOutputLabel.Text = selectedBookObject.Description;
                 publishYearOutputLabel.Text = selectedBookObject.PublishYear.ToString();
                 bindingTypeOutputLabel.Text = selectedBookObject.BindingType;
-                //coverPictureBox = selectedBookObject.Cover; 
+                coverPictureBox.Image = selectedBookObject.Cover; 
 
                 //Populate Textboxes with the selected book
                 bookIDTextBox.Text = selectedBookObject.BookID.ToString();
@@ -367,15 +403,35 @@ namespace M8_PortfolioProject_MMeyer
             {
                 coverPictureBox.Image = new Bitmap(ofd.FileName);
             }
-            //resize image to fit the picturebox size
         }
 
-        private byte[] SaveCover()
+        private byte[] SaveCover(Image Cover)
         {
+            byte[] byteArray = new byte[0];
+            using (MemoryStream stream = new MemoryStream())
+            {
+                Cover.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                stream.Close();
+
+                byteArray = stream.ToArray();
+            }
+            return byteArray;
+        }
+            /* First Attempt
             MemoryStream ms = new MemoryStream();
             coverPictureBox.Image.Save(ms, coverPictureBox.Image.RawFormat);
             return ms.GetBuffer();
-        }
+            */
+
+            /* Second
+            using (MemoryStream stream = new MemoryStream())
+            {
+                bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                byte[] byteArray = stream.ToArray();
+                // Now you can use the byteArray variable to insert the image data into the database.
+                insertCommand.Parameters.AddWithValue("Cover", bookList.Last().Cover);
+            }
+            */
 
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
