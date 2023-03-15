@@ -305,6 +305,13 @@ namespace M8_PortfolioProject_MMeyer
         }
         private void ClearLabels()
         {
+            //Clear textbox text
+            titleTextBox.Text = string.Empty; 
+            authorTextBox.Text = string.Empty;
+            //bindingTypeComboBox.Text = string.Empty;
+            publishYearTextBox.Text = string.Empty;
+            descriptionRichTextBox.Text = string.Empty;
+
             foreach (Control ctrl in this.Controls)
             {
                 TextBox tb = ctrl as TextBox;
