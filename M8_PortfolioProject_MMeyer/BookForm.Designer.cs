@@ -56,7 +56,7 @@
             this.authorOutputLabel = new System.Windows.Forms.Label();
             this.titleOutputLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.outputCoverPictureBox = new System.Windows.Forms.PictureBox();
             this.publishYearLabel1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -68,7 +68,7 @@
             this.enterInfoGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.coverPictureBox)).BeginInit();
             this.displayInfoGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputCoverPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // enterInfoGroupBox
@@ -169,11 +169,13 @@
             // 
             // coverPictureBox
             // 
+            this.coverPictureBox.BackColor = System.Drawing.Color.WhiteSmoke;
             this.coverPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.coverPictureBox.ErrorImage = null;
             this.coverPictureBox.Location = new System.Drawing.Point(17, 427);
             this.coverPictureBox.Name = "coverPictureBox";
             this.coverPictureBox.Size = new System.Drawing.Size(199, 295);
+            this.coverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.coverPictureBox.TabIndex = 4;
             this.coverPictureBox.TabStop = false;
             this.coverPictureBox.Click += new System.EventHandler(this.coverPictureBox_Click);
@@ -267,7 +269,7 @@
             this.displayInfoGroupBox.Controls.Add(this.authorOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.titleOutputLabel);
             this.displayInfoGroupBox.Controls.Add(this.label1);
-            this.displayInfoGroupBox.Controls.Add(this.pictureBox1);
+            this.displayInfoGroupBox.Controls.Add(this.outputCoverPictureBox);
             this.displayInfoGroupBox.Controls.Add(this.publishYearLabel1);
             this.displayInfoGroupBox.Controls.Add(this.label4);
             this.displayInfoGroupBox.Controls.Add(this.label5);
@@ -341,14 +343,16 @@
             this.label1.TabIndex = 23;
             this.label1.Text = "Description:";
             // 
-            // pictureBox1
+            // outputCoverPictureBox
             // 
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(40, 427);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(203, 295);
-            this.pictureBox1.TabIndex = 16;
-            this.pictureBox1.TabStop = false;
+            this.outputCoverPictureBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.outputCoverPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.outputCoverPictureBox.ErrorImage = null;
+            this.outputCoverPictureBox.Location = new System.Drawing.Point(40, 427);
+            this.outputCoverPictureBox.Name = "outputCoverPictureBox";
+            this.outputCoverPictureBox.Size = new System.Drawing.Size(203, 295);
+            this.outputCoverPictureBox.TabIndex = 16;
+            this.outputCoverPictureBox.TabStop = false;
             // 
             // publishYearLabel1
             // 
@@ -432,7 +436,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.coverPictureBox)).EndInit();
             this.displayInfoGroupBox.ResumeLayout(false);
             this.displayInfoGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputCoverPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -459,7 +463,7 @@
         private Button addButton;
         private CheckBox deleteCheckBox;
         private Label label1;
-        private PictureBox pictureBox1;
+        private PictureBox outputCoverPictureBox;
         private Label publishYearLabel1;
         private Label label4;
         private Label label5;

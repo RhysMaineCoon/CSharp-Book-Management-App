@@ -20,6 +20,7 @@ namespace M8_PortfolioProject_MMeyer
         private string mAuthor;
         private int mPublishYear;
         private string mBindingType;
+        private Image mCover;
 
         //Attributes 
         public int BookID
@@ -52,22 +53,29 @@ namespace M8_PortfolioProject_MMeyer
             get { return mBindingType; }
             set { mBindingType = value; }
         }
+        public Image Cover
+        {
+            get { return mCover; }
+            set { mCover = value; }
+        }
+
 
         //Default Constructor 
         public Book()
         {
-            this.mBookID = 0;
+            this.BookID = 0;
             this.Title = string.Empty;
             this.Description = string.Empty;
             this.Author = string.Empty;
             this.PublishYear = 0;
             this.BindingType = string.Empty;
+            //this.Cover = 
         }
 
         //Overloaded Constructor 
         public Book(string title)
         {
-            this.mBookID= 0;
+            this.BookID= 0;
             this.Title = title;
             this.Description = string.Empty;
             this.Author = string.Empty;

@@ -214,7 +214,7 @@ namespace M8_PortfolioProject_MMeyer
             var connection = OpenDBConnection();
 
             // Create SQL String
-            string SQL = "Insert into BookInfoTable (Title, Author, Binding, Year, Description) values (@Title, @Author, @Binding, @Year, @Description)";
+            string SQL = "Insert into BookInfoTable (Title, Author, Binding, Year, Description, Cover) values (@Title, @Author, @Binding, @Year, @Description, @Cover)";
             Msg(SQL.ToString());
 
             // Create Command
@@ -226,6 +226,7 @@ namespace M8_PortfolioProject_MMeyer
             insertCommand.Parameters.AddWithValue("Binding", bookList.Last().BindingType);
             insertCommand.Parameters.AddWithValue("Year", bookList.Last().PublishYear);
             insertCommand.Parameters.AddWithValue("Description", bookList.Last().Description);
+            insertCommand.Parameters.AddWithValue("Cover", bookList.Last().Cover);
 
             int intRowsAffected = insertCommand.ExecuteNonQuery();
 
@@ -247,7 +248,7 @@ namespace M8_PortfolioProject_MMeyer
             // Create SQL String
             string SQL = "Update bookInfoTable set Title ='" + titleTextBox.Text + "', Author = '" +
            authorTextBox.Text + "', Binding='" + bindingTypeComboBox.Text + "',Year='" + publishYearTextBox.Text + "', Description='" +
-           descriptionRichTextBox.Text + "' where BookID=  '" + bookIDTextBox.Text + "'";
+           descriptionRichTextBox.Text + "' Cover = '" + coverPictureBox + "', where BookID=  '" + bookIDTextBox.Text + "'";
            Msg(SQL);
 
             // Create Command
@@ -290,6 +291,7 @@ namespace M8_PortfolioProject_MMeyer
                 descriptionOutputLabel.Text = selectedBookObject.Description;
                 publishYearOutputLabel.Text = selectedBookObject.PublishYear.ToString();
                 bindingTypeOutputLabel.Text = selectedBookObject.BindingType;
+                //coverPictureBox = selectedBookObject.Cover; 
 
                 //Populate Textboxes with the selected book
                 bookIDTextBox.Text = selectedBookObject.BookID.ToString();
@@ -311,7 +313,6 @@ namespace M8_PortfolioProject_MMeyer
             //Clear textbox text
             titleTextBox.Text = string.Empty; 
             authorTextBox.Text = string.Empty;
-            //bindingTypeComboBox.Text = string.Empty;
             publishYearTextBox.Text = string.Empty;
             descriptionRichTextBox.Text = string.Empty;
 
@@ -332,6 +333,7 @@ namespace M8_PortfolioProject_MMeyer
             descriptionOutputLabel.Text = string.Empty;
             publishYearOutputLabel.Text = string.Empty;
             bindingTypeOutputLabel.Text = string.Empty;
+            //--clear picturebox
             titleTextBox.Focus();
             addButton.Text = "Add Book";
         }
@@ -353,7 +355,7 @@ namespace M8_PortfolioProject_MMeyer
             ClearLabels();
         }
 
-        //Picture Box
+        //Picture Box for book cover
 
         private void coverPictureBox_Click(object sender, EventArgs e)
         {
@@ -365,6 +367,7 @@ namespace M8_PortfolioProject_MMeyer
             {
                 coverPictureBox.Image = new Bitmap(ofd.FileName);
             }
+            //resize image to fit the picturebox size
         }
 
         private byte[] SaveCover()
