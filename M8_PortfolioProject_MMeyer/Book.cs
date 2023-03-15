@@ -27,7 +27,6 @@ namespace M8_PortfolioProject_MMeyer
             get { return mBookID; }
             set { mBookID = value; }
         }
-
         public string Title
         {
             get { return mTitle; }
@@ -75,13 +74,5 @@ namespace M8_PortfolioProject_MMeyer
             this.PublishYear = 0;
             this.BindingType = string.Empty;
         }
-
-        //Methods
-        public string OutputInfo()
-        {
-            return "BookID: " + mBookID + "\nTitle: " + mTitle + "\nAuthor: " + mAuthor + "\nBinding Type : " + mBindingType + "\nPublish Year: " + mPublishYear + "\nDescription: " + mDescription + "";
-        }
-
-
     }
 }

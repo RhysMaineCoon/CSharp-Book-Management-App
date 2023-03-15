@@ -23,14 +23,11 @@ namespace M8_PortfolioProject_MMeyer
             InitializeComponent();
         }
 
-        //Create a Global Book Object
-        private M8_PortfolioProject_MMeyer.Book selectedBookObject;
-
         //Create a BindingList to store multiple Books 
         private BindingList<Book> bookList = new BindingList<Book>();
 
         //Class level Object - Book 
-        private M8_PortfolioProject_MMeyer.Book bookObject = new M8_PortfolioProject_MMeyer.Book();
+        private Book bookObject = new Book();
 
         // Class Level variable
         int bookLastNumber = 0;
@@ -80,18 +77,18 @@ namespace M8_PortfolioProject_MMeyer
             {
 
                 //Assign Book Properties
-
-               /* if (bookIDTextBox.Text == String.Empty)
-                {
-                    // If new record increment customerLastNumber
-                    bookLastNumber++;
-                    bookObject.BookID = bookLastNumber.ToString();
+                /*
+                if (bookIDTextBox.Text == string.Empty)
+                 {
+                     // If new record increment bookLastNumber
+                     bookLastNumber++;
+                     bookObject.BookID = Convert.ToInt32(bookLastNumber.ToString());
                 }
-                else
-                {
-                    bookObject.BookID = bookIDTextBox.Text;
-                }
-               */
+                 else
+                 {
+                     bookObject.BookID = int.Parse(bookIDTextBox.Text);
+                 }
+                */
 
                 //Assigning book information from the form to a bookObject
                 bookObject.Title = titleTextBox.Text;
@@ -102,13 +99,14 @@ namespace M8_PortfolioProject_MMeyer
 
                 if (addButton.Text == "Add Book")
                 {
-                    // Add new customer object to list of customers
                     bookList.Add(bookObject);
                     InsertBook();
+                    bookList.Clear();
+                    Reload_Books();
                 }
                 else if (addButton.Text == "Edit Book")
                 {
-                    UpdateBook();
+                    UpdateBook(); // Issue with updating book info. 
                     bookList.Clear();
                     Reload_Books();
                 }
@@ -120,9 +118,6 @@ namespace M8_PortfolioProject_MMeyer
                 }
 
                 ClearLabels();
-
-                //Allows user to uncheck delete checkbox when clicked 
-                deleteCheckBox.CheckState = CheckState.Unchecked;
             }
         }
         private void BookForm_Load(object sender, EventArgs e)
@@ -181,19 +176,27 @@ namespace M8_PortfolioProject_MMeyer
             {
                 while (bookReader.Read())
                 {
-                    var storedBookObject = new Book(bookReader["Id"].ToString());
-                    storedBookObject.Title = bookReader["Title"].ToString();
-                    storedBookObject.Description = bookReader["Description"].ToString();
-                    storedBookObject.Author = bookReader["Author"].ToString();
-                    storedBookObject.PublishYear = int.Parse(bookReader["Year"].ToString());
-                    storedBookObject.BindingType = bookReader["Binding"].ToString();
+                    var storedBookObject = new Book(bookReader["BookID"].ToString());
+                    
+                    try
+                    {
+                        storedBookObject.Title = bookReader["Title"].ToString();
+                        storedBookObject.Description = bookReader["Description"].ToString();
+                        storedBookObject.Author = bookReader["Author"].ToString();
+                        storedBookObject.PublishYear = int.Parse(bookReader["Year"].ToString());
+                        storedBookObject.BindingType = bookReader["Binding"].ToString();
+                    }
+                    catch 
+                    {
+                        MessageBox.Show("Invalid data was entered.");
+                    }
 
-                    // Update userLastNumber
+                    // Update bookLastNumber
                     if (storedBookObject.BookID > bookLastNumber)
                     {
                         bookLastNumber = storedBookObject.BookID;
                     }
-                    Msg(bookLastNumber.ToString());
+                    //Msg(bookLastNumber.ToString());
                     bookList.Add(storedBookObject);
                 }
             }
@@ -213,6 +216,7 @@ namespace M8_PortfolioProject_MMeyer
             // Create SQL String
             string SQL = "Insert into BookInfoTable (Title, Author, Binding, Year, Description) values (@Title, @Author, @Binding, @Year, @Description)";
             Msg(SQL.ToString());
+
             // Create Command
             var insertCommand = new SqlCommand(SQL, connection);
 
@@ -243,7 +247,7 @@ namespace M8_PortfolioProject_MMeyer
             // Create SQL String
             string SQL = "Update bookInfoTable set Title ='" + titleTextBox.Text + "', Author = '" +
            authorTextBox.Text + "', Binding='" + bindingTypeComboBox.Text + "',Year='" + publishYearTextBox.Text + "', Description='" +
-           descriptionRichTextBox.Text + "' where Id=  '" + bookIDTextBox.Text + "'";
+           descriptionRichTextBox.Text + "' where BookID=  '" + bookIDTextBox.Text + "'";
            Msg(SQL);
 
             // Create Command
@@ -294,7 +298,6 @@ namespace M8_PortfolioProject_MMeyer
                 bindingTypeComboBox.Text = selectedBookObject.BindingType;
                 publishYearTextBox.Text = selectedBookObject.PublishYear.ToString();
                 descriptionRichTextBox.Text = selectedBookObject.Description;
-                outputLabel.Text = selectedBookObject.OutputInfo();
 
                 //If record selected show delete checkbox
                 deleteCheckBox.Visible = true;
@@ -331,7 +334,6 @@ namespace M8_PortfolioProject_MMeyer
             bindingTypeOutputLabel.Text = string.Empty;
             titleTextBox.Focus();
             addButton.Text = "Add Book";
-
         }
 
         private void deleteCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -355,8 +357,23 @@ namespace M8_PortfolioProject_MMeyer
 
         private void coverPictureBox_Click(object sender, EventArgs e)
         {
-            // delete later
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "Select the Image";
+            ofd.Filter = "Image File (*.png;*.jpg;*.bmp;*.gif)|*.png;*.jpg;*.bmp;*.gif";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                coverPictureBox.Image = new Bitmap(ofd.FileName);
+            }
         }
+
+        private byte[] SaveCover()
+        {
+            MemoryStream ms = new MemoryStream();
+            coverPictureBox.Image.Save(ms, coverPictureBox.Image.RawFormat);
+            return ms.GetBuffer();
+        }
+
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
