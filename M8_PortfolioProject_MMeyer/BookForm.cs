@@ -203,9 +203,8 @@ namespace M8_PortfolioProject_MMeyer
                     }
 
                     // Convert and assign image to book object
-
+                    /*
                     //System.FormatException: 'The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters.'
-
                     byte[] imageBytes = Convert.FromBase64String(bookReader["Cover"].ToString());
                     using (MemoryStream ms = new MemoryStream(imageBytes))
                     {
@@ -218,9 +217,36 @@ namespace M8_PortfolioProject_MMeyer
                         {
                             MessageBox.Show("Parameter is not valid");
                         }
-
                     }
-             
+                    */
+
+
+                    // Try/Catch block for the above code 
+                    // Database is saving the image, but not displaying it to form when book is clicked on
+                    try
+                    {
+                        string base64String = bookReader["Cover"].ToString();
+                        base64String = base64String.Trim();
+                        base64String = base64String.PadRight(base64String.Length + (4 - base64String.Length % 4) % 4, '=');
+                        byte[] imageBytes = Convert.FromBase64String(base64String);
+                        using (MemoryStream ms = new MemoryStream(imageBytes))
+                        {
+                            storedBookObject.Cover = Image.FromStream(ms);
+                        }
+                    }
+                    catch (FormatException ex)
+                    {
+                        MessageBox.Show("The input is not a valid Base64 string: " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred: " + ex.Message);
+                    }
+
+
+
+
+
                     // Update bookLastNumber
                     if (storedBookObject.BookID > bookLastNumber)
                     {
@@ -277,11 +303,13 @@ namespace M8_PortfolioProject_MMeyer
 
         public void UpdateBook()
         {
+            //BookID is not incrementing for each record
+            //Cannot update book record due to this
+
             // Open Database
             var dbConnection = OpenDBConnection();
 
             // Create SQL String
-   
             string SQL = "UPDATE bookInfoTable SET Title='" + titleTextBox.Text + "', Author='" +
              authorTextBox.Text + "', Binding='" + bindingTypeComboBox.Text + "', Year='" + publishYearTextBox.Text + "', Description='" +
             descriptionRichTextBox.Text + "', Cover='" + coverPictureBox.Image + "' WHERE BookID='" + bookIDTextBox.Text + "'";
@@ -336,6 +364,7 @@ namespace M8_PortfolioProject_MMeyer
                 bindingTypeComboBox.Text = selectedBookObject.BindingType;
                 publishYearTextBox.Text = selectedBookObject.PublishYear.ToString();
                 descriptionRichTextBox.Text = selectedBookObject.Description;
+                coverPictureBox.Image = selectedBookObject.Cover;
 
                 //If record selected show delete checkbox
                 deleteCheckBox.Visible = true;
