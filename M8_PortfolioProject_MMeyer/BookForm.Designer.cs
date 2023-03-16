@@ -276,7 +276,7 @@
             this.displayInfoGroupBox.Controls.Add(this.label6);
             this.displayInfoGroupBox.Location = new System.Drawing.Point(665, 12);
             this.displayInfoGroupBox.Name = "displayInfoGroupBox";
-            this.displayInfoGroupBox.Size = new System.Drawing.Size(301, 768);
+            this.displayInfoGroupBox.Size = new System.Drawing.Size(335, 794);
             this.displayInfoGroupBox.TabIndex = 3;
             this.displayInfoGroupBox.TabStop = false;
             this.displayInfoGroupBox.Text = "Display Book Info:";
@@ -284,7 +284,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(40, 409);
+            this.label2.Location = new System.Drawing.Point(40, 464);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 15);
             this.label2.TabIndex = 29;
@@ -294,7 +294,7 @@
             // 
             this.descriptionOutputLabel.Location = new System.Drawing.Point(22, 216);
             this.descriptionOutputLabel.Name = "descriptionOutputLabel";
-            this.descriptionOutputLabel.Size = new System.Drawing.Size(221, 168);
+            this.descriptionOutputLabel.Size = new System.Drawing.Size(262, 235);
             this.descriptionOutputLabel.TabIndex = 28;
             this.descriptionOutputLabel.Text = "*";
             // 
@@ -348,7 +348,7 @@
             this.outputCoverPictureBox.BackColor = System.Drawing.Color.WhiteSmoke;
             this.outputCoverPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.outputCoverPictureBox.ErrorImage = null;
-            this.outputCoverPictureBox.Location = new System.Drawing.Point(40, 427);
+            this.outputCoverPictureBox.Location = new System.Drawing.Point(40, 482);
             this.outputCoverPictureBox.Name = "outputCoverPictureBox";
             this.outputCoverPictureBox.Size = new System.Drawing.Size(203, 295);
             this.outputCoverPictureBox.TabIndex = 16;

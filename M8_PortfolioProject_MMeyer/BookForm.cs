@@ -364,7 +364,7 @@ namespace M8_PortfolioProject_MMeyer
                 bindingTypeComboBox.Text = selectedBookObject.BindingType;
                 publishYearTextBox.Text = selectedBookObject.PublishYear.ToString();
                 descriptionRichTextBox.Text = selectedBookObject.Description;
-                coverPictureBox.Image = selectedBookObject.Cover;
+                outputCoverPictureBox.Image = selectedBookObject.Cover;
 
                 //If record selected show delete checkbox
                 deleteCheckBox.Visible = true;
@@ -398,14 +398,14 @@ namespace M8_PortfolioProject_MMeyer
             descriptionOutputLabel.Text = string.Empty;
             publishYearOutputLabel.Text = string.Empty;
             bindingTypeOutputLabel.Text = string.Empty;
-            //--clear picturebox
+            //coverPictureBox.Clear();
             titleTextBox.Focus();
             addButton.Text = "Add Book";
         }
 
         private void deleteCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (deleteCheckBox.Checked = true)
+            if (deleteCheckBox.Checked == true)
             { 
                 addButton.Text = "Delete Book";
             }
@@ -421,7 +421,6 @@ namespace M8_PortfolioProject_MMeyer
         }
 
         //Picture Box for book cover
-
         private void coverPictureBox_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
