@@ -79,7 +79,7 @@ namespace M8_PortfolioProject_MMeyer
             {
 
                 //Assign Book Properties
-                /*
+                
                 if (bookIDTextBox.Text == string.Empty)
                  {
                      // If new record increment bookLastNumber
@@ -90,7 +90,7 @@ namespace M8_PortfolioProject_MMeyer
                  {
                      bookObject.BookID = int.Parse(bookIDTextBox.Text);
                  }
-                */
+                
 
                 //Assigning book information from the form to a bookObject
                 bookObject.Title = titleTextBox.Text;
@@ -222,7 +222,7 @@ namespace M8_PortfolioProject_MMeyer
 
 
                     // Try/Catch block for the above code 
-                    // Database is saving the image, but not displaying it to form when book is clicked on
+                    // Database is saving the image, but not displaying it to form when book record is clicked on
                     try
                     {
                         string base64String = bookReader["Cover"].ToString();
@@ -242,10 +242,6 @@ namespace M8_PortfolioProject_MMeyer
                     {
                         MessageBox.Show("An error occurred: " + ex.Message);
                     }
-
-
-
-
 
                     // Update bookLastNumber
                     if (storedBookObject.BookID > bookLastNumber)
@@ -285,9 +281,7 @@ namespace M8_PortfolioProject_MMeyer
 
             // Insert Image into database
             byte[] coverBytes = SaveCover(bookList.Last().Cover);
-            insertCommand.Parameters.AddWithValue("Cover", coverBytes);
-            
-
+            insertCommand.Parameters.AddWithValue("Cover", coverBytes); 
 
             int intRowsAffected = insertCommand.ExecuteNonQuery();
 
@@ -305,6 +299,7 @@ namespace M8_PortfolioProject_MMeyer
         {
             //BookID is not incrementing for each record
             //Cannot update book record due to this
+            //All records have an ID of 0, this will overwrite all records when editing a record. 
 
             // Open Database
             var dbConnection = OpenDBConnection();
@@ -451,21 +446,14 @@ namespace M8_PortfolioProject_MMeyer
             return ms.GetBuffer();
             */
 
-            /* Second
+            /* Second Attempt
             using (MemoryStream stream = new MemoryStream())
             {
                 bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
                 byte[] byteArray = stream.ToArray();
-                // Now you can use the byteArray variable to insert the image data into the database.
+                //use the byteArray variable to insert image data into database.
                 insertCommand.Parameters.AddWithValue("Cover", bookList.Last().Cover);
             }
             */
-
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-            string filePath = openFileDialog1.FileName;
-            coverPictureBox.Image = Image.FromFile(filePath);
-        }
     }
 }

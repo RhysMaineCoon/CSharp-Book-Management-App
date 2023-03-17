@@ -62,8 +62,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.deleteCheckBox = new System.Windows.Forms.CheckBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
             this.enterInfoGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.coverPictureBox)).BeginInit();
@@ -134,9 +132,9 @@
             this.addCoverLabel.AutoSize = true;
             this.addCoverLabel.Location = new System.Drawing.Point(17, 410);
             this.addCoverLabel.Name = "addCoverLabel";
-            this.addCoverLabel.Size = new System.Drawing.Size(123, 15);
+            this.addCoverLabel.Size = new System.Drawing.Size(66, 15);
             this.addCoverLabel.TabIndex = 9;
-            this.addCoverLabel.Text = "Add Cover (Optional):";
+            this.addCoverLabel.Text = "Add Cover:";
             // 
             // publishYearTextBox
             // 
@@ -402,15 +400,6 @@
             this.deleteCheckBox.UseVisualStyleBackColor = false;
             this.deleteCheckBox.CheckedChanged += new System.EventHandler(this.deleteCheckBox_CheckedChanged);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
-            // openFileDialog2
-            // 
-            this.openFileDialog2.FileName = "openFileDialog2";
-            // 
             // openFileDialog3
             // 
             this.openFileDialog3.FileName = "openFileDialog1";
@@ -474,8 +463,6 @@
         private Label authorOutputLabel;
         private Label descriptionOutputLabel;
         private Button clearButton;
-        private OpenFileDialog openFileDialog1;
-        private OpenFileDialog openFileDialog2;
         private Label label3;
         private OpenFileDialog openFileDialog3;
         internal TextBox bookIDTextBox;
