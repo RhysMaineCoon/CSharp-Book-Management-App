@@ -62,8 +62,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.deleteCheckBox = new System.Windows.Forms.CheckBox();
-            this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
-            this.addCoverButton = new System.Windows.Forms.Button();
             this.enterInfoGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.coverPictureBox)).BeginInit();
             this.displayInfoGroupBox.SuspendLayout();
@@ -73,7 +71,6 @@
             // enterInfoGroupBox
             // 
             this.enterInfoGroupBox.BackColor = System.Drawing.Color.Silver;
-            this.enterInfoGroupBox.Controls.Add(this.addCoverButton);
             this.enterInfoGroupBox.Controls.Add(this.bookIDTextBox);
             this.enterInfoGroupBox.Controls.Add(this.label3);
             this.enterInfoGroupBox.Controls.Add(this.clearButton);
@@ -117,7 +114,7 @@
             // clearButton
             // 
             this.clearButton.BackColor = System.Drawing.Color.Silver;
-            this.clearButton.Location = new System.Drawing.Point(164, 402);
+            this.clearButton.Location = new System.Drawing.Point(164, 429);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(98, 38);
             this.clearButton.TabIndex = 12;
@@ -145,7 +142,7 @@
             // addButton
             // 
             this.addButton.BackColor = System.Drawing.Color.Silver;
-            this.addButton.Location = new System.Drawing.Point(164, 358);
+            this.addButton.Location = new System.Drawing.Point(164, 385);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(98, 38);
             this.addButton.TabIndex = 4;
@@ -197,9 +194,10 @@
             this.coverPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.coverPictureBox.ErrorImage = null;
             this.coverPictureBox.Image = global::M8_PortfolioProject_MMeyer.Properties.Resources.cross_g62c159f94_1280;
-            this.coverPictureBox.Location = new System.Drawing.Point(17, 340);
+            this.coverPictureBox.InitialImage = global::M8_PortfolioProject_MMeyer.Properties.Resources.cross_g62c159f94_1280;
+            this.coverPictureBox.Location = new System.Drawing.Point(17, 362);
             this.coverPictureBox.Name = "coverPictureBox";
-            this.coverPictureBox.Size = new System.Drawing.Size(129, 173);
+            this.coverPictureBox.Size = new System.Drawing.Size(124, 151);
             this.coverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.coverPictureBox.TabIndex = 4;
             this.coverPictureBox.TabStop = false;
@@ -397,26 +395,13 @@
             // 
             this.deleteCheckBox.AutoSize = true;
             this.deleteCheckBox.BackColor = System.Drawing.Color.Silver;
-            this.deleteCheckBox.Location = new System.Drawing.Point(352, 295);
+            this.deleteCheckBox.Location = new System.Drawing.Point(352, 506);
             this.deleteCheckBox.Name = "deleteCheckBox";
             this.deleteCheckBox.Size = new System.Drawing.Size(89, 19);
             this.deleteCheckBox.TabIndex = 7;
             this.deleteCheckBox.Text = "Delete Book";
             this.deleteCheckBox.UseVisualStyleBackColor = false;
             this.deleteCheckBox.CheckedChanged += new System.EventHandler(this.deleteCheckBox_CheckedChanged);
-            // 
-            // openFileDialog3
-            // 
-            this.openFileDialog3.FileName = "openFileDialog1";
-            // 
-            // addCoverButton
-            // 
-            this.addCoverButton.Location = new System.Drawing.Point(164, 446);
-            this.addCoverButton.Name = "addCoverButton";
-            this.addCoverButton.Size = new System.Drawing.Size(98, 37);
-            this.addCoverButton.TabIndex = 15;
-            this.addCoverButton.Text = "Add Cover";
-            this.addCoverButton.UseVisualStyleBackColor = true;
             // 
             // BookForm
             // 
@@ -476,9 +461,7 @@
         private Label descriptionOutputLabel;
         private Button clearButton;
         private Label label3;
-        private OpenFileDialog openFileDialog3;
         internal TextBox bookIDTextBox;
         private Label label2;
-        private Button addCoverButton;
     }
 }

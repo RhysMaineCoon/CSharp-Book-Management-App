@@ -91,8 +91,6 @@ namespace M8_PortfolioProject_MMeyer
                      bookObject.BookID = int.Parse(bookIDTextBox.Text);
                  }
 
-                
-
                 //Assigning book information from the form to a bookObject
                 bookObject.Title = titleTextBox.Text;
                 bookObject.Author = authorTextBox.Text;
@@ -100,7 +98,6 @@ namespace M8_PortfolioProject_MMeyer
                 bookObject.PublishYear = valueINT;
                 bookObject.Description = descriptionRichTextBox.Text;
                 bookObject.Cover = coverPictureBox.Image;
-
 
                 if (addButton.Text == "Add Book")
                 {
@@ -147,7 +144,7 @@ namespace M8_PortfolioProject_MMeyer
             }
         }
 
-        //To Do: Replace current database with an excel spreadsheet 
+        
         private SqlConnection OpenDBConnection()
         {
             //This gives the full path into the bin/debug folder.
@@ -223,10 +220,9 @@ namespace M8_PortfolioProject_MMeyer
                     }
                     */
 
-
                     // Try/Catch block for the above code 
                     // Database is saving the image, but not displaying it to form when book record is clicked on
-                    try
+                   /* try
                     {
                         string base64String = bookReader["Cover"].ToString();
                         base64String = base64String.Trim();
@@ -245,6 +241,26 @@ namespace M8_PortfolioProject_MMeyer
                     {
                         MessageBox.Show("An error occurred: " + ex.Message);
                     }
+                   */
+
+
+                    // Closer! When DB reloads in listbox, the image for a record will appear in coverPictureBox!
+                    byte[] cover = bookReader["Cover"] as byte[];
+                    if (cover == null || cover.Length == 0)
+                    {
+                        coverPictureBox.Image = null;
+                    }
+                    else
+                    {
+                        using (MemoryStream ms = new MemoryStream(cover))
+                        {
+                            coverPictureBox.Image = Image.FromStream(ms);
+                        }
+                    }
+
+
+
+
 
                     // Update bookLastNumber
                     if (storedBookObject.BookID > bookLastNumber)
@@ -253,6 +269,7 @@ namespace M8_PortfolioProject_MMeyer
                     }
                     //Msg(bookLastNumber.ToString());
                     bookList.Add(storedBookObject);
+
                 }
             }
             connection.Close();
@@ -297,7 +314,7 @@ namespace M8_PortfolioProject_MMeyer
                 Msg("The insert failed.");
             }
         }
-
+        
         public void UpdateBook()
         {
             //BookID is not incrementing for each record
@@ -396,7 +413,11 @@ namespace M8_PortfolioProject_MMeyer
             descriptionOutputLabel.Text = string.Empty;
             publishYearOutputLabel.Text = string.Empty;
             bindingTypeOutputLabel.Text = string.Empty;
-            //coverPictureBox.Clear();
+            // Set the default image as the Image property of the PictureBox
+            coverPictureBox.Image = Properties.Resources.cross_g62c159f94_1280; //Keep this one
+
+            //coverPictureBox.Image = null; //Clear out with no image
+
             titleTextBox.Focus();
             addButton.Text = "Add Book";
         }
@@ -430,6 +451,7 @@ namespace M8_PortfolioProject_MMeyer
                 coverPictureBox.Image = new Bitmap(ofd.FileName);
             }
         }
+        
 
         private byte[] SaveCover(Image Cover)
         {
@@ -443,20 +465,23 @@ namespace M8_PortfolioProject_MMeyer
             }
             return byteArray;
         }
-            /* First Attempt
-            MemoryStream ms = new MemoryStream();
-            coverPictureBox.Image.Save(ms, coverPictureBox.Image.RawFormat);
-            return ms.GetBuffer();
-            */
 
-            /* Second Attempt
-            using (MemoryStream stream = new MemoryStream())
-            {
-                bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                byte[] byteArray = stream.ToArray();
-                //use the byteArray variable to insert image data into database.
-                insertCommand.Parameters.AddWithValue("Cover", bookList.Last().Cover);
-            }
-            */
+        
+
+        /* First Attempt
+MemoryStream ms = new MemoryStream();
+coverPictureBox.Image.Save(ms, coverPictureBox.Image.RawFormat);
+return ms.GetBuffer();
+*/
+
+        /* Second Attempt
+        using (MemoryStream stream = new MemoryStream())
+        {
+            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            byte[] byteArray = stream.ToArray();
+            //use the byteArray variable to insert image data into database.
+            insertCommand.Parameters.AddWithValue("Cover", bookList.Last().Cover);
+        }
+        */
     }
 }

@@ -30,8 +30,8 @@ namespace M8_PortfolioProject_MMeyer
         }
         public string Title
         {
-            get { return mTitle; }
-            set { mTitle = value; }
+            get; //{ return mTitle; } C# does not require the following sections 
+            set; //{ mTitle = value; }
         }
         public string Description
         {
