@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,8 @@ namespace M8_PortfolioProject_MMeyer
             MessageBox.Show(msg, "Book Management Application", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
         } 
 
-        private void addButton_Click(object sender, EventArgs e)
+        //Validating inputs 
+        private bool ValidateInput()
         {
             //Declare Variables
             int valueINT;
@@ -49,37 +51,40 @@ namespace M8_PortfolioProject_MMeyer
             {
                 MessageBox.Show("Book Title cannot be blank.");
                 this.titleTextBox.Focus();
-                return;
+                return false;
             }
             else if (authorTextBox.Text == "")
             {
                 MessageBox.Show("Author cannot be blank.");
                 this.authorTextBox.Focus();
-                return;
+                return false;
             }
             else if (string.IsNullOrEmpty(bindingTypeComboBox.Text))
             {
                 MessageBox.Show("Binding Type cannot be blank.");
                 this.bindingTypeComboBox.Focus();
-                return;
+                return false;
             }
             else if (int.TryParse(publishYearTextBox.Text, out valueINT) == false)
             {
-                MessageBox.Show("Publication Year cannot be blank.");
+                MessageBox.Show("Publication Year must be a number.");
                 this.publishYearTextBox.Focus();
-                return;
+                return false;
             }
             else if (descriptionRichTextBox.Text == "")
             {
                 MessageBox.Show("Description cannot be blank.");
                 this.descriptionRichTextBox.Focus();
-                return;
+                return false;
             }
-            else
-            {
+            return true; 
+        }
 
+        private void addBookButton_Click(object sender, EventArgs e)
+        {
+            if (ValidateInput()) 
+            {
                 //Assign Book Properties
-                
                 if (bookIDTextBox.Text == string.Empty)
                  {
                      // If new record increment bookLastNumber
@@ -91,37 +96,46 @@ namespace M8_PortfolioProject_MMeyer
                      bookObject.BookID = int.Parse(bookIDTextBox.Text);
                  }
 
-                //Assigning book information from the form to a bookObject
-                bookObject.Title = titleTextBox.Text;
-                bookObject.Author = authorTextBox.Text;
-                bookObject.BindingType = bindingTypeComboBox.SelectedItem.ToString();
-                bookObject.PublishYear = valueINT;
-                bookObject.Description = descriptionRichTextBox.Text;
-                bookObject.Cover = coverPictureBox.Image;
+                AssignBookProperties();
 
-                if (addButton.Text == "Add Book")
-                {
-                    bookList.Add(bookObject);
-                    InsertBook();
-                    bookList.Clear();
-                    Reload_Books();
-                }
-                else if (addButton.Text == "Edit Book")
-                {
-                    UpdateBook(); // Issue with updating book info. 
-                    bookList.Clear();
-                    Reload_Books();
-                }
-                else if (addButton.Text == "Delete Book")
-                {
-                    DeleteBook();
-                    bookList.Clear();
-                    Reload_Books();
-                }
-
-                ClearLabels();
+                bookList.Add(bookObject);                
             }
         }
+
+        private void AssignBookProperties()
+        {
+            //Assigning book information from the form to a bookObject
+            bookObject.Title = titleTextBox.Text;
+            bookObject.Author = authorTextBox.Text;
+            bookObject.BindingType = bindingTypeComboBox.SelectedItem.ToString();
+            bookObject.PublishYear = int.TryParse(publishYearTextBox.Text, out int valueINT) ? valueINT : 0;
+            bookObject.Description = descriptionRichTextBox.Text;
+            bookObject.Cover = coverPictureBox.Image;
+
+            if (addBookButton.Text == "Add Book")
+            {
+                bookList.Add(bookObject);
+                InsertBook();
+                bookList.Clear();
+                Reload_Books();
+            }
+            else if (addBookButton.Text == "Edit Book")
+            {
+                UpdateBook(); // Issue with updating book info. 
+                bookList.Clear();
+                Reload_Books();
+            }
+            else if (addBookButton.Text == "Delete Book")
+            {
+                DeleteBook();
+                bookList.Clear();
+                Reload_Books();
+            }
+
+            ClearLabels();
+        }
+
+
         private void BookForm_Load(object sender, EventArgs e)
         {
             //Add binding type options to Combobox
@@ -133,6 +147,10 @@ namespace M8_PortfolioProject_MMeyer
             // Connect  Listbox properties to Binding list object 
             bookListBox.DataSource = bookList;
             bookListBox.DisplayMember = "Title";
+
+            //Load default image to coverPictureBox
+            coverPictureBox.Image = Properties.Resources.cross_g62c159f94_1280;
+
 
             // Load books from Database
             Reload_Books();
@@ -222,45 +240,58 @@ namespace M8_PortfolioProject_MMeyer
 
                     // Try/Catch block for the above code 
                     // Database is saving the image, but not displaying it to form when book record is clicked on
-                   /* try
-                    {
-                        string base64String = bookReader["Cover"].ToString();
-                        base64String = base64String.Trim();
-                        base64String = base64String.PadRight(base64String.Length + (4 - base64String.Length % 4) % 4, '=');
-                        byte[] imageBytes = Convert.FromBase64String(base64String);
-                        using (MemoryStream ms = new MemoryStream(imageBytes))
-                        {
-                            storedBookObject.Cover = Image.FromStream(ms);
-                        }
-                    }
-                    catch (FormatException ex)
-                    {
-                        MessageBox.Show("The input is not a valid Base64 string: " + ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("An error occurred: " + ex.Message);
-                    }
-                   */
+                    /* try
+                     {
+                         string base64String = bookReader["Cover"].ToString();
+                         base64String = base64String.Trim();
+                         base64String = base64String.PadRight(base64String.Length + (4 - base64String.Length % 4) % 4, '=');
+                         byte[] imageBytes = Convert.FromBase64String(base64String);
+                         using (MemoryStream ms = new MemoryStream(imageBytes))
+                         {
+                             storedBookObject.Cover = Image.FromStream(ms);
+                         }
+                     }
+                     catch (FormatException ex)
+                     {
+                         MessageBox.Show("The input is not a valid Base64 string: " + ex.Message);
+                     }
+                     catch (Exception ex)
+                     {
+                         MessageBox.Show("An error occurred: " + ex.Message);
+                     }
 
 
-                    // Closer! When DB reloads in listbox, the image for a record will appear in coverPictureBox!
+
+                     // Closer! When DB reloads in listbox, the image for a record will appear in coverPictureBox! -> until I commented out the above code. 
+                     byte[] cover = bookReader["Cover"] as byte[];
+                     if (cover == null || cover.Length == 0)
+                     {
+                         coverPictureBox.Image = null;
+                     }
+                     else
+                     {
+                         using (MemoryStream ms = new MemoryStream(cover))
+                         {
+                             coverPictureBox.Image = Image.FromStream(ms);
+                         }
+                  */
+
+                    // Read the image data from the database
                     byte[] cover = bookReader["Cover"] as byte[];
                     if (cover == null || cover.Length == 0)
                     {
-                        coverPictureBox.Image = null;
+                        outputCoverPictureBox.Image = null;
                     }
                     else
                     {
                         using (MemoryStream ms = new MemoryStream(cover))
                         {
-                            coverPictureBox.Image = Image.FromStream(ms);
+                            outputCoverPictureBox.Image = Image.FromStream(ms);
                         }
-                    }
+                    }   
+                
 
-
-
-
+                    
 
                     // Update bookLastNumber
                     if (storedBookObject.BookID > bookLastNumber)
@@ -279,6 +310,9 @@ namespace M8_PortfolioProject_MMeyer
         private void bookListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             DisplayBook(); 
+
+
+
         }
         private void InsertBook()
         {
@@ -302,6 +336,9 @@ namespace M8_PortfolioProject_MMeyer
             // Insert Image into database
             byte[] coverBytes = SaveCover(bookList.Last().Cover);
             insertCommand.Parameters.AddWithValue("Cover", coverBytes); 
+
+
+
 
             int intRowsAffected = insertCommand.ExecuteNonQuery();
 
@@ -332,7 +369,13 @@ namespace M8_PortfolioProject_MMeyer
 
             // Create Command
             var updateCommand = new SqlCommand(SQL, dbConnection);
+
+            //update a varbinary(max) column with a string value in SQL
+            //UPDATE yourTable
+            //SET yourColumn = CONVERT(varbinary(max), 'your string value')
+            //WHERE yourCondition = yourValue;
             int intRowsAffected = updateCommand.ExecuteNonQuery();
+
             if (intRowsAffected == 1)
             {
                 Msg(bookObject.Title + " was updated");
@@ -381,11 +424,22 @@ namespace M8_PortfolioProject_MMeyer
                 descriptionRichTextBox.Text = selectedBookObject.Description;
                 outputCoverPictureBox.Image = selectedBookObject.Cover;
 
+                //Update coverPictureBox so it shows the correct book cover
+                if (bookListBox.SelectedIndex != -1)
+                {
+                    Book selectedBook = bookList[bookListBox.SelectedIndex];
+                    if (selectedBook.Cover != null)
+                    {
+                        coverPictureBox.Image = selectedBook.Cover;
+                    }
+                }
+
+
                 //If record selected show delete checkbox
                 deleteCheckBox.Visible = true;
 
                 //Change save button to Edit Book
-                addButton.Text = "Edit Book";
+                addBookButton.Text = "Edit Book";
             }
         }
         private void ClearLabels()
@@ -419,18 +473,18 @@ namespace M8_PortfolioProject_MMeyer
             //coverPictureBox.Image = null; //Clear out with no image
 
             titleTextBox.Focus();
-            addButton.Text = "Add Book";
+            addBookButton.Text = "Add Book";
         }
 
         private void deleteCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (deleteCheckBox.Checked == true)
             { 
-                addButton.Text = "Delete Book";
+                addBookButton.Text = "Delete Book";
             }
             else
             {
-                addButton.Text = "Edit Book";
+                addBookButton.Text = "Edit Book";
             }
         }
 
@@ -439,7 +493,7 @@ namespace M8_PortfolioProject_MMeyer
             ClearLabels();
         }
 
-        //Picture Box for book cover
+        //Upload picture for book cover
         private void coverPictureBox_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -450,9 +504,10 @@ namespace M8_PortfolioProject_MMeyer
             {
                 coverPictureBox.Image = new Bitmap(ofd.FileName);
             }
+
         }
         
-
+        
         private byte[] SaveCover(Image Cover)
         {
             byte[] byteArray = new byte[0];
@@ -466,22 +521,5 @@ namespace M8_PortfolioProject_MMeyer
             return byteArray;
         }
 
-        
-
-        /* First Attempt
-MemoryStream ms = new MemoryStream();
-coverPictureBox.Image.Save(ms, coverPictureBox.Image.RawFormat);
-return ms.GetBuffer();
-*/
-
-        /* Second Attempt
-        using (MemoryStream stream = new MemoryStream())
-        {
-            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-            byte[] byteArray = stream.ToArray();
-            //use the byteArray variable to insert image data into database.
-            insertCommand.Parameters.AddWithValue("Cover", bookList.Last().Cover);
-        }
-        */
     }
 }

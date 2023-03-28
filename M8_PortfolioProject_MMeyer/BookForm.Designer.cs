@@ -35,7 +35,7 @@
             this.clearButton = new System.Windows.Forms.Button();
             this.descriptionLabel = new System.Windows.Forms.Label();
             this.descriptionRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.addButton = new System.Windows.Forms.Button();
+            this.addBookButton = new System.Windows.Forms.Button();
             this.addCoverLabel = new System.Windows.Forms.Label();
             this.publishYearTextBox = new System.Windows.Forms.TextBox();
             this.bindingTypeComboBox = new System.Windows.Forms.ComboBox();
@@ -76,7 +76,7 @@
             this.enterInfoGroupBox.Controls.Add(this.clearButton);
             this.enterInfoGroupBox.Controls.Add(this.descriptionLabel);
             this.enterInfoGroupBox.Controls.Add(this.descriptionRichTextBox);
-            this.enterInfoGroupBox.Controls.Add(this.addButton);
+            this.enterInfoGroupBox.Controls.Add(this.addBookButton);
             this.enterInfoGroupBox.Controls.Add(this.addCoverLabel);
             this.enterInfoGroupBox.Controls.Add(this.publishYearTextBox);
             this.enterInfoGroupBox.Controls.Add(this.bindingTypeComboBox);
@@ -139,16 +139,16 @@
             this.descriptionRichTextBox.TabIndex = 10;
             this.descriptionRichTextBox.Text = "";
             // 
-            // addButton
+            // addBookButton
             // 
-            this.addButton.BackColor = System.Drawing.Color.Silver;
-            this.addButton.Location = new System.Drawing.Point(164, 385);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(98, 38);
-            this.addButton.TabIndex = 4;
-            this.addButton.Text = "Add Book";
-            this.addButton.UseVisualStyleBackColor = false;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            this.addBookButton.BackColor = System.Drawing.Color.Silver;
+            this.addBookButton.Location = new System.Drawing.Point(164, 385);
+            this.addBookButton.Name = "addBookButton";
+            this.addBookButton.Size = new System.Drawing.Size(98, 38);
+            this.addBookButton.TabIndex = 4;
+            this.addBookButton.Text = "Add Book";
+            this.addBookButton.UseVisualStyleBackColor = false;
+            this.addBookButton.Click += new System.EventHandler(this.addBookButton_Click);
             // 
             // addCoverLabel
             // 
@@ -352,6 +352,7 @@
             this.outputCoverPictureBox.Location = new System.Drawing.Point(22, 316);
             this.outputCoverPictureBox.Name = "outputCoverPictureBox";
             this.outputCoverPictureBox.Size = new System.Drawing.Size(143, 197);
+            this.outputCoverPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.outputCoverPictureBox.TabIndex = 16;
             this.outputCoverPictureBox.TabStop = false;
             // 
@@ -446,7 +447,7 @@
         private Label descriptionLabel;
         private RichTextBox descriptionRichTextBox;
         private Label addCoverLabel;
-        private Button addButton;
+        private Button addBookButton;
         private CheckBox deleteCheckBox;
         private Label label1;
         private PictureBox outputCoverPictureBox;
